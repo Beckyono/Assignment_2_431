@@ -1,1 +1,111 @@
-#Homework .txt file
+#Homework Answers file for Team 10
+(*Problem 1     Solution*)
+(*Non-Tail Recursive Solution*)
+let rec replicate x n =
+  match n with
+  | n when n < 0 -> failwith "n must be a non-negative integer"
+  | 0 -> []
+  | _ -> x :: replicate x (n - 1)
+
+(*Tail Recursive Solution*)
+let replicate x n =
+  match n with
+  | n when n < 0 -> failwith "n must be a non-negative integer"
+  | _ ->
+      let rec helper acc count =
+        match count with
+        | 0 -> acc
+        | _ -> helper (acc @ [x]) (count - 1)
+      in
+      helper [] n
+
+(*************************************************************************************************)
+(*Problem 2     Solution*)
+(*Non-Tail Recursive Solution*)
+let rec makeList n =
+  match n with
+  | _ when n < 0 -> failwith "n must be a non-negative integer"
+  | 0 -> []
+  | _ -> makeList (n - 1) @ [n]
+
+(*Tail Recursive Solution*)
+let makeList n =
+  let rec helper curr count =
+    match count with
+    | count when count < 0 -> failwith "n must be a non-negative integer"
+    | 0 -> curr
+    | _ -> helper (count :: curr) (count - 1)
+  in
+  helper [] n
+
+(*************************************************************************************************)
+(*Problem 3     Solution*)
+(*Non-Tail Recursive Solution*)
+let rec reverse lst =
+  match lst with
+  | [] -> []
+  | h::t -> (reverse t) @ [h]
+
+(*Tail Recursive Solution*)
+let reverse list =
+  let rec helper list curr =
+    match list with
+    | [] -> curr
+    | h::t -> helper t (h::curr)
+  in
+  helper list []
+
+(*************************************************************************************************)
+(*Problem 4     Solution*)
+let rec count_leaves tree =
+  match tree with
+  | Empty -> 0
+  | Leaf _ -> 1
+  | Node (_, l, r) -> count_leaves l + count_leaves r;;
+
+(*************************************************************************************************)
+(*Problem 5     Solution*)
+let rec inorder tree =
+  match tree with
+  | Empty -> []
+  | Leaf value -> [value]
+  | Node (value, l, r) ->
+      inorder l @ [value] @ inorder r
+
+(*************************************************************************************************)
+(*Problem 6     Solution*)
+let rec preorder tree =
+  match tree with
+  | Empty -> []
+  | Leaf value -> [value]
+  | Node (value, l, r) ->
+      [value] @ preorder l @ preorder r
+
+(*************************************************************************************************)
+(*Problem 12     Solution*)
+divisors :: Int -> [Int]
+divisors n = [x | x <- [1..n], n `mod` x == 0]
+
+(*************************************************************************************************)
+(*Problem 13     Solution*)
+isPrime :: Int -> Bool
+isPrime n
+    | n <= 1    = False
+    | n == 2    = True
+    | even n    = False
+    | otherwise = null [x | x <- [3,5..floor (sqrt (fromIntegral n))], n `mod` x == 0]
+
+(*************************************************************************************************)
+(*Problem 14     Solution*)
+primes :: [Int]
+primes = [x | x <- [2..], isPrime x]
+
+(*************************************************************************************************)
+(*Problem 15     Solution*)
+primes :: [Int]
+primes = filter isPrime [2..]
+
+(*************************************************************************************************)
+(*Problem 16     Solution*)
+perfs :: Int -> [Int]
+perfs limit = filter (\n -> n == sum [x | x <- [1..(n `div` 2)], n `mod` x == 0]) [1..limit]
